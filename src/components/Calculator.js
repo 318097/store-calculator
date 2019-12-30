@@ -1,90 +1,76 @@
 /* eslint-disable no-eval */
 /* eslint-disable no-useless-escape */
 /* eslint-disable no-template-curly-in-string */
-import React, { useState, useEffect, Fragment } from "react";
+import React, { useState, useEffect } from "react";
 import { Input, Button } from "antd";
-import uuid from "uuid";
 
-const input = "${var1:key1} * 100";
-
-const REG_EXP = {
-  input: /\$\{\w+:\w+\}/,
-  operator: /[+\-*\/]/,
-  constant: /\d/
-};
-
-const getKey = variable => {
-  let parsedVariable = variable.replace(/[\$\{\}]/g, "");
-  const [, key] = parsedVariable.split(":");
-  return key;
-};
+import { REG_EXP, breakVariable } from "../utils";
+import FormulaPreview from "./FormulaPreview";
 
 const Calculator = () => {
-  const [output, setOutput] = useState([]);
+  const [formula, setFormula] = useState("${var1:key1} * 100");
+  const [variables, setVariables] = useState([]);
   const [result, setResult] = useState(null);
   const [inputData, setInputData] = useState({});
 
   useEffect(() => {
-    const parseInput = () => {
-      const tokens = input.split(" ");
-
-      const result = tokens.map(token => {
-        if (token.match(REG_EXP.input)) {
-          const key = getKey(token);
-          console.log(token, key);
-          return { type: "INPUT", key };
-        } else if (token.match(REG_EXP.operator))
-          return { type: "OPERATOR", value: token };
-        else if (token.match(REG_EXP.constant))
-          return { type: "CONSTANT", value: token };
+    const extractVariables = () => {
+      const tokens = formula.split(" ");
+      const result = [];
+      tokens.forEach(token => {
+        if (token.match(REG_EXP.INPUT)) {
+          const { key, placeholder } = breakVariable(token);
+          result.push({ key, placeholder });
+        }
       });
-      setOutput(result);
+      setVariables(result);
     };
-    parseInput();
+    extractVariables();
   }, []);
 
   const setInput = (key, value) =>
     setInputData(prev => ({ ...prev, [key]: value }));
 
   const calculate = () => {
-    const variables = input.match(REG_EXP.input);
-    let expression = input;
+    const variables = formula.match(REG_EXP.INPUT);
+    let expression = formula;
     variables.forEach(variable => {
-      const key = getKey(variable);
-
+      const { key } = breakVariable(variable);
       const variableValue = inputData[key];
-      console.log(variableValue);
       expression = expression.replace(variable, variableValue);
     });
-    console.log(expression);
+    console.log("final expression:", expression);
     setResult(eval(expression));
   };
 
   return (
-    <div>
-      {output.map(({ type, key, value }) => {
-        switch (type) {
-          case "INPUT":
-            return (
-              <Input
-                style={{ width: "50px" }}
-                value={inputData[key]}
-                onChange={({ target: { value } }) => setInput(key, value)}
-              />
-            );
-          case "OPERATOR":
-            return <span className="operator">{value}</span>;
-          case "CONSTANT":
-            return <span className="constant">{value}</span>;
-          default:
-            return <Fragment />;
-        }
-      })}
+    <section id="calculator">
+      <h3 className="formula">
+        Formula:{" "}
+        <Input
+          className="formula-input"
+          value={formula}
+          onChange={({ target: { value } }) => setFormula(value)}
+        />
+      </h3>
+      {variables.map(({ key, placeholder }, i) => (
+        <Input
+          key={i}
+          placeholder={placeholder.toUpperCase()}
+          className="variable-input"
+          style={{ width: "70px" }}
+          value={inputData[key]}
+          onChange={({ target: { value } }) => setInput(key, value)}
+        />
+      ))}
+      <h3 className="formula-preview">
+        {<FormulaPreview formula={formula} />}
+      </h3>
       <Button onClick={calculate}>Calculate</Button>
-      <div>
+      <div className="formula-result">
         Result: <span>{result}</span>
       </div>
-    </div>
+    </section>
   );
 };
 
