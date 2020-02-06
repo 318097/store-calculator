@@ -1,7 +1,8 @@
+/* eslint-disable no-useless-escape */
 const REG_EXP = {
-  INPUT: /\$\{\w+:\w+\}/,
-  OPERATOR: /[+\-*\/]/,
-  CONSTANT: /\d/
+  INPUT: /\$\{\w+:\w+\}/gi,
+  OPERATOR: /[+\-*\/]/gi,
+  CONSTANT: /\d/gi
 };
 
 const breakVariable = variable => {
