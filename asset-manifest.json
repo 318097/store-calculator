@@ -1,0 +1,25 @@
+{
+  "files": {
+    "main.css": "/store-calculator/static/css/main.3f9d09de.chunk.css",
+    "main.js": "/store-calculator/static/js/main.a23b5e51.chunk.js",
+    "main.js.map": "/store-calculator/static/js/main.a23b5e51.chunk.js.map",
+    "runtime-main.js": "/store-calculator/static/js/runtime-main.4b37afb5.js",
+    "runtime-main.js.map": "/store-calculator/static/js/runtime-main.4b37afb5.js.map",
+    "static/css/2.aef8ad04.chunk.css": "/store-calculator/static/css/2.aef8ad04.chunk.css",
+    "static/js/2.79dea351.chunk.js": "/store-calculator/static/js/2.79dea351.chunk.js",
+    "static/js/2.79dea351.chunk.js.map": "/store-calculator/static/js/2.79dea351.chunk.js.map",
+    "index.html": "/store-calculator/index.html",
+    "precache-manifest.cb2347af08273c8c7aaf66f7c1404c29.js": "/store-calculator/precache-manifest.cb2347af08273c8c7aaf66f7c1404c29.js",
+    "service-worker.js": "/store-calculator/service-worker.js",
+    "static/css/2.aef8ad04.chunk.css.map": "/store-calculator/static/css/2.aef8ad04.chunk.css.map",
+    "static/css/main.3f9d09de.chunk.css.map": "/store-calculator/static/css/main.3f9d09de.chunk.css.map",
+    "static/js/2.79dea351.chunk.js.LICENSE": "/store-calculator/static/js/2.79dea351.chunk.js.LICENSE"
+  },
+  "entrypoints": [
+    "static/js/runtime-main.4b37afb5.js",
+    "static/css/2.aef8ad04.chunk.css",
+    "static/js/2.79dea351.chunk.js",
+    "static/css/main.3f9d09de.chunk.css",
+    "static/js/main.a23b5e51.chunk.js"
+  ]
+}
